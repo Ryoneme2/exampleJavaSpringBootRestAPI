@@ -14,10 +14,13 @@ public class Services {
     return Arrays.stream(field).toList();
   }
 
-  public Map<String, String> check(int[][] board) {
-    Board b = new Board(board);
-    Map<String, String> map = new HashMap<>();
-    map.put("isWin", b.status(board));
-    return map;
+  public String check(Board board) {
+    Board b = new Board(board.getField());
+    return b.status();
+  }
+
+  public int[][] getBoardBotMove(Board board) {
+    Board b = new Board(board.getField());
+    return b.getBoardRandomMove();
   }
 }

@@ -1,13 +1,15 @@
 package com.example.demo.demo.Tictactoe;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.demo.Tictactoe.Board.Board;
+import com.example.demo.demo.Tictactoe.model.Response;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -22,13 +24,51 @@ public class Controller {
     this.services = services;
   }
 
-  @GetMapping("/win")
-  public Map<String, String> checkWin() {
-    int[][] board = new int[3][3];
-    board[0][0] = 1;
-    board[0][2] = 1;
-    board[0][1] = 1;
-    return services.check(board);
+  @GetMapping("/test")
+  public ResponseEntity<Response> win() {
+    LocalDateTime date = LocalDateTime.now();
+    return ResponseEntity.ok(
+      Response.builder()
+      .timeStamp(date)
+      .message("success")
+      .statusCode(200)
+      .status("OK")
+      .data(Map.of("isWin","win","data",new int[3][3]))
+      .build()
+    );
+  }
+  @PostMapping(value = "/win")
+  public ResponseEntity<Response> checkWin(@RequestBody Board board) {
+    String isWin = services.check(board);
+    System.out.println(isWin);
+    if(isWin != "null") return ResponseEntity.ok(
+      Response.builder()
+      .timeStamp(LocalDateTime.now())
+      .message("success")
+      .statusCode(200)
+      .status("OK")
+      .data(Map.of(
+        "isWin", isWin,
+        "field", board.getField()
+      ))
+      .build()
+    );
+
+    int[][] newBoard = services.getBoardBotMove(board);
+
+    return ResponseEntity.ok(
+      Response.builder()
+      .timeStamp(LocalDateTime.now())
+      .message("success")
+      .statusCode(200)
+      .status("OK")
+      .data(Map.of(
+        "isWin", services.check(new Board(newBoard)),
+        "field", newBoard
+      ))
+      .build()
+    );
+
   }
 
 }
