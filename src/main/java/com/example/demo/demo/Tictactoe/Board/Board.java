@@ -1,6 +1,7 @@
 package com.example.demo.demo.Tictactoe.Board;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -78,6 +79,24 @@ public class Board {
   }
 
   public int[][] getBoardRandomBestMove() {
+    int count = 0;
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        if (this.field[i][j] == 1)
+          count++;
+      }
+    }
+
+    if (count == 1) {
+      return getBoardRandomMove();
+    }
+
+    int[] losingPos = this.getLosingPosition();
+    if (losingPos != null) {
+      this.field[losingPos[0]][losingPos[1]] = 2;
+      return this.field;
+    }
+
     BestMove bm = new BestMove();
     Move m = bm.getMove(this.field);
     this.field[m.row][m.col] = 2;
@@ -114,10 +133,71 @@ public class Board {
     if (count == 9)
       return "draw";
     return "null";
+
   }
 
-  public void setCoordinate(int x, int y) {
-    field[x][y] = 1;
+  public int[] checkLosing() {
+    int[][] f = this.field;
+    if (f[0][0] == 1 && f[2][2] == 1 || f[0][2] == 1 && f[2][0] == 1) {
+      int[] x = { 1, 1 };
+      return x;
+    }
+    if (f[0][0] == 1 && f[1][1] == 1) {
+      int[] x = { 2, 2 };
+      return x;
+    }
+    if (f[2][2] == 1 && f[1][1] == 1) {
+      int[] x = { 0, 0 };
+      return x;
+    }
+    if (f[0][2] == 1 && f[1][1] == 1) {
+      int[] x = { 2, 0 };
+      return x;
+    }
+    if (f[2][0] == 1 && f[1][1] == 1) {
+      int[] x = { 0, 2 };
+      return x;
+    }
+
+    return null;
+  }
+
+  public int[] getLosingPosition() {
+    // Loop through each space on the board
+    int[] col = new int[3];
+    int[] blankCol = new int[3];
+    for (int i = 0; i < 3; i++) {
+      int rowCount = 0;
+      int blank = -1;
+      for (int j = 0; j < 3; j++) {
+        if (this.field[i][j] == 1) {
+          rowCount++;
+          col[j]++;
+        }
+        if (this.field[i][j] == 0) {
+          blank = j;
+          blankCol[j] = i;
+        }
+      }
+      if (rowCount == 2) {
+        int[] x = { i, blank };
+        return x;
+      }
+    }
+    for (int c = 0; c < 3; c++) {
+      if (col[c] == 2) {
+        int[] x = { c, blankCol[c] };
+        return x;
+      }
+    }
+
+    int[] diaCheck = this.checkLosing();
+
+    if (diaCheck != null) {
+      return diaCheck;
+    }
+
+    return null; // Game is not about to be a loss
   }
 
 }
