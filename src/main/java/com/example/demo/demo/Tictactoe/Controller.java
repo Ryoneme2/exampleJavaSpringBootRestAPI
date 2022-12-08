@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.demo.Tictactoe.Board.Board;
 import com.example.demo.demo.Tictactoe.model.Response;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(path = "api/v1/boards")
 @ResponseBody
