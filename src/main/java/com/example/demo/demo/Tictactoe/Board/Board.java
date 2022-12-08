@@ -91,6 +91,10 @@ public class Board {
         return "win";
       } else if (this.field[0][0] == 2 && this.field[1][1] == 2 && this.field[2][2] == 2) {
         return "lose";
+      } else if (this.field[0][2] == 1 && this.field[1][1] == 1 && this.field[2][0] == 1) {
+        return "win";
+      } else if (this.field[0][2] == 2 && this.field[1][1] == 2 && this.field[2][0] == 2) {
+        return "lose";
       }
       for (int c = 0; c < 3; c++) {
         if (this.field[r][c] == 1 || this.field[r][c] == 2)
