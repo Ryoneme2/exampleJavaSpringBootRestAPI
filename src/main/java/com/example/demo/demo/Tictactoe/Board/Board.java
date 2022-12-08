@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import com.example.demo.demo.Tictactoe.Board.BestMove.Move;
+
 public class Board {
 
   private int[][] field;
@@ -72,6 +74,13 @@ public class Board {
     int[] randomCoordinate = count.get(randomNumber);
     this.field[randomCoordinate[0]][randomCoordinate[1]] = 2;
 
+    return this.field;
+  }
+
+  public int[][] getBoardRandomBestMove() {
+    BestMove bm = new BestMove();
+    Move m = bm.getMove(this.field);
+    this.field[m.row][m.col] = 2;
     return this.field;
   }
 

@@ -23,4 +23,9 @@ public class Services {
     Board b = new Board(board.getField());
     return b.getBoardRandomMove();
   }
+
+  public int[][] getBoardBotBestMove(Board board) {
+    Board b = new Board(board.getField());
+    return b.getBoardRandomBestMove();
+  }
 }
