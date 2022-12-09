@@ -167,7 +167,7 @@ public class Board {
   public int[] getLosingPosition() {
     // Loop through each space on the board
     int[] col = new int[3];
-    int[] blankCol = new int[3];
+    int[] blankCol = { -1, -1, -1 };
     for (int i = 0; i < 3; i++) {
       int rowCount = 0;
       int blank = -1;
