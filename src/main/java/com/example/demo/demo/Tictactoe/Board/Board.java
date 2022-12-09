@@ -93,6 +93,8 @@ public class Board {
 
     int[] losingPos = this.getLosingPosition();
     if (losingPos != null) {
+      System.out.println(losingPos[0]);
+      System.out.println(losingPos[1]);
       this.field[losingPos[0]][losingPos[1]] = 2;
       return this.field;
     }
@@ -138,23 +140,23 @@ public class Board {
 
   public int[] checkLosing() {
     int[][] f = this.field;
-    if (f[0][0] == 1 && f[2][2] == 1 || f[0][2] == 1 && f[2][0] == 1) {
+    if (f[0][0] == 1 && f[2][2] == 1 && f[1][1] != 2 || f[0][2] == 1 && f[2][0] == 1 && f[1][1] != 2) {
       int[] x = { 1, 1 };
       return x;
     }
-    if (f[0][0] == 1 && f[1][1] == 1) {
+    if (f[0][0] == 1 && f[1][1] == 1 && f[2][2] != 2) {
       int[] x = { 2, 2 };
       return x;
     }
-    if (f[2][2] == 1 && f[1][1] == 1) {
+    if (f[2][2] == 1 && f[1][1] == 1 && f[0][0] != 2) {
       int[] x = { 0, 0 };
       return x;
     }
-    if (f[0][2] == 1 && f[1][1] == 1) {
+    if (f[0][2] == 1 && f[1][1] == 1 && f[2][0] != 2) {
       int[] x = { 2, 0 };
       return x;
     }
-    if (f[2][0] == 1 && f[1][1] == 1) {
+    if (f[2][0] == 1 && f[1][1] == 1 && f[0][2] != 2) {
       int[] x = { 0, 2 };
       return x;
     }
@@ -179,14 +181,22 @@ public class Board {
           blankCol[j] = i;
         }
       }
-      if (rowCount == 2) {
+      if (rowCount == 2 && blank != -1) {
+        System.out.println(i);
+        System.out.println("blank" + blank);
         int[] x = { i, blank };
         return x;
       }
     }
     for (int c = 0; c < 3; c++) {
-      if (col[c] == 2) {
-        int[] x = { c, blankCol[c] };
+      System.out.println("col c = " + col[c]);
+      System.out.println("c = " + c);
+      if (col[c] == 2 && blankCol[c] != -1) {
+        System.out.println("------ in -----");
+        System.out.println(c);
+        System.out.println("blank" + blankCol[c]);
+        System.out.println("------ out -----");
+        int[] x = { blankCol[c], c };
         return x;
       }
     }
